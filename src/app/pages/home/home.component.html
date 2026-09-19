@@ -1,0 +1,417 @@
+<app-nav-bar></app-nav-bar>
+
+<main class="min-h-screen bg-gray-50">
+
+  <!-- HERO -->
+
+  <section
+    class="bg-white"
+  >
+
+    <div
+      class="mx-auto grid max-w-7xl gap-10 px-6 py-16 md:grid-cols-2 md:items-center"
+    >
+
+      <div>
+
+        <h1
+          class="text-4xl font-extrabold leading-tight text-gray-900 md:text-5xl"
+        >
+          Encuentra los repuestos que
+          <span class="text-orange-500">
+            necesitas
+          </span>
+        </h1>
+
+        <p
+          class="mt-5 max-w-xl text-lg leading-8 text-gray-600"
+        >
+          Busca repuestos, arma tu selección y genera una
+          proforma para recoger tus productos directamente
+          en nuestra tienda.
+        </p>
+
+        <div class="mt-8 flex gap-4">
+
+          <a
+            routerLink="/catalogo"
+            class="rounded-lg bg-orange-500 px-6 py-3 font-semibold text-white transition hover:bg-orange-600"
+          >
+            Ver catálogo
+          </a>
+
+          <a
+            routerLink="/login"
+            class="rounded-lg border border-gray-300 bg-white px-6 py-3 font-semibold text-gray-700 transition hover:bg-gray-100"
+          >
+            Iniciar sesión
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <div
+        class="flex min-h-72 items-center justify-center rounded-2xl bg-gray-100"
+      >
+
+        <div class="text-center">
+
+          <div class="text-7xl">
+            ⚙️
+          </div>
+
+          <p class="mt-4 font-semibold text-gray-500">
+            La Guarida
+          </p>
+
+          <p class="text-sm text-gray-400">
+            Repuestos para tu vehículo
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- PRODUCTOS DESTACADOS -->
+
+  <section class="mx-auto max-w-7xl px-6 py-12">
+
+    <div class="mb-8 flex items-end justify-between">
+
+      <div>
+
+        <p
+          class="text-sm font-semibold uppercase tracking-wider text-orange-500"
+        >
+          Productos
+        </p>
+
+        <h2
+          class="mt-1 text-3xl font-bold text-gray-900"
+        >
+          Repuestos destacados
+        </h2>
+
+      </div>
+
+      <a
+        routerLink="/catalogo"
+        class="text-sm font-semibold text-orange-500 hover:text-orange-600"
+      >
+        Ver todos →
+      </a>
+
+    </div>
+
+
+    <div
+      class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+    >
+
+      <article
+        *ngFor="let producto of productos.slice(0, 6)"
+        class="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
+      >
+
+        <div
+          class="flex h-44 items-center justify-center bg-gray-100"
+        >
+
+          <img
+            [src]="producto.imagen"
+            [alt]="producto.nombre"
+            class="h-full w-full object-cover"
+            onerror="this.style.display='none'"
+          />
+
+          <span class="absolute text-5xl">
+            ⚙️
+          </span>
+
+        </div>
+
+
+        <div class="p-5">
+
+          <p class="text-xs font-medium text-gray-400">
+            {{ producto.codigo }}
+          </p>
+
+          <h3
+            class="mt-1 text-lg font-bold text-gray-900"
+          >
+            {{ producto.nombre }}
+          </h3>
+
+          <p class="mt-2 text-sm text-gray-500">
+            {{ producto.marca }} · {{ producto.categoria }}
+          </p>
+
+          <div class="mt-5 flex items-center justify-between">
+
+            <span
+              class="text-xl font-bold text-gray-900"
+            >
+              S/ {{ producto.precio.toFixed(2) }}
+            </span>
+
+            <button
+              (click)="agregarAlCarrito(producto)"
+              class="rounded-lg bg-orange-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-orange-600"
+            >
+              Añadir
+            </button>
+
+          </div>
+
+        </div>
+
+      </article>
+
+    </div>
+
+  </section>
+
+
+  <!-- TENDENCIA -->
+
+<!-- ESTADÍSTICAS -->
+
+<section
+  class="border-t border-gray-200 bg-white"
+>
+
+  <div
+    class="mx-auto max-w-7xl px-6 py-12"
+  >
+
+    <div
+      class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between"
+    >
+
+      <div>
+
+        <p
+          class="text-sm font-semibold uppercase tracking-wider text-orange-500"
+        >
+          Estadísticas
+        </p>
+
+        <h2
+          class="mt-1 text-3xl font-bold text-gray-900"
+        >
+          Tendencia de productos reservados
+        </h2>
+
+        <p class="mt-2 text-gray-500">
+          Cantidad de unidades incluidas en las proformas durante los últimos 30 días.
+        </p>
+
+      </div>
+
+      <div
+        class="rounded-xl bg-orange-50 px-5 py-3"
+      >
+
+        <p
+          class="text-xs font-semibold uppercase tracking-wide text-orange-500"
+        >
+          Total reservado
+        </p>
+
+        <p
+          class="mt-1 text-2xl font-bold text-gray-900"
+        >
+          {{ totalReservado }}
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <!-- GRÁFICO -->
+
+    <div
+      class="mt-8 overflow-hidden rounded-2xl border border-gray-200 bg-white p-4 shadow-sm md:p-6"
+    >
+
+      <div class="overflow-x-auto">
+
+        <svg
+          viewBox="0 0 1000 360"
+          class="h-[320px] min-w-[850px] w-full"
+          preserveAspectRatio="none"
+        >
+
+          <!-- Líneas horizontales -->
+
+          <line
+            x1="45"
+            y1="20"
+            x2="955"
+            y2="20"
+            stroke="#e5e7eb"
+            stroke-width="1"
+          />
+
+          <line
+            x1="45"
+            y1="150"
+            x2="955"
+            y2="150"
+            stroke="#e5e7eb"
+            stroke-width="1"
+          />
+
+          <line
+            x1="45"
+            y1="280"
+            x2="955"
+            y2="280"
+            stroke="#e5e7eb"
+            stroke-width="1"
+          />
+
+
+          <!-- Eje vertical -->
+
+          <line
+            x1="45"
+            y1="20"
+            x2="45"
+            y2="280"
+            stroke="#d1d5db"
+            stroke-width="1"
+          />
+
+
+          <!-- Eje horizontal -->
+
+          <line
+            x1="45"
+            y1="280"
+            x2="955"
+            y2="280"
+            stroke="#d1d5db"
+            stroke-width="1"
+          />
+
+
+          <!-- Valores del eje Y -->
+
+          <text
+            x="35"
+            y="25"
+            text-anchor="end"
+            class="fill-gray-500 text-xs"
+          >
+            {{ cantidadMaxima }}
+          </text>
+
+          <text
+            x="35"
+            y="155"
+            text-anchor="end"
+            class="fill-gray-500 text-xs"
+          >
+            {{ cantidadMaxima / 2 | number:'1.0-0' }}
+          </text>
+
+          <text
+            x="35"
+            y="285"
+            text-anchor="end"
+            class="fill-gray-500 text-xs"
+          >
+            0
+          </text>
+
+
+          <!-- Línea del gráfico -->
+
+          <polyline
+            *ngIf="puntosGrafico.length > 0"
+            [attr.points]="puntosLinea"
+            fill="none"
+            stroke="#f97316"
+            stroke-width="4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+
+
+          <!-- Puntos -->
+
+          <ng-container
+            *ngFor="let punto of puntosGrafico; let i = index"
+          >
+
+            <circle
+              [attr.cx]="punto.x"
+              [attr.cy]="punto.y"
+              r="5"
+              fill="#f97316"
+            >
+
+              <title>
+                {{ punto.etiqueta }}:
+                {{ punto.cantidad }} productos
+              </title>
+
+            </circle>
+
+
+            <!-- Etiquetas de fecha -->
+
+            <text
+              *ngIf="mostrarEtiqueta(i)"
+              [attr.x]="punto.x"
+              y="310"
+              text-anchor="middle"
+              class="fill-gray-500 text-xs"
+            >
+              {{ punto.etiqueta }}
+            </text>
+
+          </ng-container>
+
+        </svg>
+
+      </div>
+
+
+      <!-- Sin datos -->
+
+      <div
+        *ngIf="totalReservado === 0"
+        class="mt-4 rounded-lg bg-gray-50 px-4 py-3 text-center text-sm text-gray-500"
+      >
+        Todavía no hay productos reservados mediante proformas.
+      </div>
+
+
+      <div
+        class="mt-4 flex items-center justify-center gap-2 text-sm text-gray-500"
+      >
+
+        <span
+          class="h-3 w-3 rounded-full bg-orange-500"
+        ></span>
+
+        Productos reservados por día
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>

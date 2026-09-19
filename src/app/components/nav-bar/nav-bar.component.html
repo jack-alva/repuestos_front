@@ -1,0 +1,136 @@
+<nav class="sticky top-0 z-50 border-b border-gray-200 bg-white">
+
+  <div
+    class="mx-auto flex h-20 max-w-7xl items-center gap-6 px-6"
+  >
+
+    <!-- LOGO -->
+
+    <a
+      routerLink="/home"
+      class="flex min-w-fit items-center gap-2"
+    >
+
+      <div
+        class="flex h-10 w-10 items-center justify-center rounded-lg bg-orange-500 text-xl text-white"
+      >
+        ⚙
+      </div>
+
+      <span
+        class="text-xl font-bold text-gray-900"
+      >
+        La Guarida
+      </span>
+
+    </a>
+
+
+    <!-- BUSCADOR -->
+
+    <div class="hidden flex-1 md:block">
+
+      <div
+        class="flex items-center rounded-lg border border-gray-300 bg-gray-50 px-4 py-2"
+      >
+
+        <span class="mr-2 text-gray-400">
+          🔍
+        </span>
+
+        <input
+          type="text"
+          placeholder="Buscar repuestos..."
+          class="w-full bg-transparent text-sm outline-none"
+        />
+
+      </div>
+
+    </div>
+
+
+    <!-- CONTRASTE -->
+
+    <button
+      class="hidden rounded-lg px-3 py-2 text-sm text-gray-600 transition hover:bg-gray-100 lg:block"
+    >
+      ◐ Contraste
+    </button>
+
+
+    <!-- CARRITO -->
+
+    <a
+      routerLink="/carrito"
+      *ngIf="authService.obtenerRol() === 'CLIENTE'"
+      class="relative flex items-center gap-2 rounded-lg px-3 py-2 transition hover:bg-gray-100"
+    >
+
+      <span class="text-xl">
+        🛒
+      </span>
+
+      <div class="hidden text-right sm:block">
+
+        <p class="text-xs text-gray-500">
+          Carrito
+        </p>
+
+        <p class="font-semibold text-gray-900">
+          S/ {{ totalCarrito.toFixed(2) }}
+        </p>
+
+      </div>
+
+      <span
+        *ngIf="cantidadCarrito > 0"
+        class="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-orange-500 text-xs font-bold text-white"
+      >
+        {{ cantidadCarrito }}
+      </span>
+
+    </a>
+
+
+    <!-- LOGIN -->
+
+    <a
+      *ngIf="!authService.estaAutenticado()"
+      routerLink="/login"
+      class="rounded-lg bg-orange-500 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-orange-600"
+    >
+      Iniciar sesión
+    </a>
+
+
+    <!-- USUARIO -->
+
+    <div
+      *ngIf="authService.estaAutenticado()"
+      class="flex items-center gap-3"
+    >
+
+      <div class="hidden text-right md:block">
+
+        <p class="text-sm font-semibold text-gray-800">
+          {{ authService.obtenerUsuario()?.nombre }}
+        </p>
+
+        <p class="text-xs text-gray-500">
+          {{ authService.obtenerRol() }}
+        </p>
+
+      </div>
+
+      <button
+        (click)="logout()"
+        class="rounded-lg border border-gray-300 px-3 py-2 text-sm transition hover:bg-gray-100"
+      >
+        Salir
+      </button>
+
+    </div>
+
+  </div>
+
+</nav>

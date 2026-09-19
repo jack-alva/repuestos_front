@@ -1,0 +1,94 @@
+<app-nav-bar></app-nav-bar>
+
+<main class="min-h-screen bg-gray-50">
+
+  <div class="mx-auto max-w-7xl px-6 py-10">
+
+    <h1 class="text-3xl font-bold">
+      Proformas
+    </h1>
+
+    <p class="mt-2 text-gray-500">
+      Proformas generadas por los clientes.
+    </p>
+
+
+    <div
+      *ngIf="proformas.length === 0"
+      class="mt-8 rounded-xl bg-white p-10 text-center"
+    >
+
+      <p class="text-gray-500">
+        No existen proformas registradas todavía.
+      </p>
+
+    </div>
+
+
+    <div
+      *ngIf="proformas.length > 0"
+      class="mt-8 overflow-hidden rounded-xl bg-white shadow-sm"
+    >
+
+      <table class="w-full text-left">
+
+        <thead class="border-b bg-gray-50">
+
+          <tr>
+
+            <th class="px-6 py-4">
+              Código
+            </th>
+
+            <th class="px-6 py-4">
+              Fecha
+            </th>
+
+            <th class="px-6 py-4">
+              Estado
+            </th>
+
+            <th class="px-6 py-4">
+              Total
+            </th>
+
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          <tr
+            *ngFor="let proforma of proformas"
+            class="border-b"
+          >
+
+            <td
+              class="px-6 py-4 font-semibold text-orange-500"
+            >
+              {{ proforma.codigo }}
+            </td>
+
+            <td class="px-6 py-4">
+              {{ proforma.fecha | date:'dd/MM/yyyy HH:mm' }}
+            </td>
+
+            <td class="px-6 py-4">
+              {{ proforma.estado }}
+            </td>
+
+            <td class="px-6 py-4 font-semibold">
+              S/ {{ proforma.total.toFixed(2) }}
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</main>

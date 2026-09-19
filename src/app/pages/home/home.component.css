@@ -1,0 +1,7 @@
+:host {
+  display: block;
+}
+
+svg {
+  min-height: 320px;
+}

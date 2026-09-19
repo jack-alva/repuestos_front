@@ -1,0 +1,152 @@
+<div
+  class="flex min-h-screen items-center justify-center bg-gray-100 px-6"
+>
+
+  <div
+    class="grid w-full max-w-4xl overflow-hidden rounded-2xl bg-white shadow-xl md:grid-cols-2"
+  >
+
+    <!-- IZQUIERDA -->
+
+    <div
+      class="hidden bg-orange-500 p-10 text-white md:flex md:flex-col md:justify-center"
+    >
+
+      <div class="text-6xl">
+        ⚙️
+      </div>
+
+      <h1 class="mt-6 text-4xl font-bold">
+        La Guarida
+      </h1>
+
+      <p class="mt-4 text-orange-100">
+        Encuentra tus repuestos y genera tu proforma
+        de manera sencilla.
+      </p>
+
+    </div>
+
+
+    <!-- FORMULARIO -->
+
+    <div class="p-8 md:p-10">
+
+      <a
+        routerLink="/home"
+        class="text-sm text-gray-500 hover:text-orange-500"
+      >
+        ← Volver al inicio
+      </a>
+
+      <h2
+        class="mt-8 text-3xl font-bold text-gray-900"
+      >
+        Iniciar sesión
+      </h2>
+
+      <p class="mt-2 text-gray-500">
+        Ingresa a tu cuenta para continuar.
+      </p>
+
+
+      <form
+        (ngSubmit)="iniciarSesion()"
+        class="mt-8 space-y-5"
+      >
+
+        <div>
+
+          <label
+            class="mb-2 block text-sm font-medium text-gray-700"
+          >
+            Correo electrónico
+          </label>
+
+          <input
+            type="email"
+            name="correo"
+            [(ngModel)]="correo"
+            required
+            placeholder="correo@ejemplo.com"
+            class="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-100"
+          />
+
+        </div>
+
+
+        <div>
+
+          <label
+            class="mb-2 block text-sm font-medium text-gray-700"
+          >
+            Contraseña
+          </label>
+
+          <input
+            type="password"
+            name="password"
+            [(ngModel)]="password"
+            required
+            placeholder="••••••••"
+            class="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-100"
+          />
+
+        </div>
+
+
+        <div
+          *ngIf="error"
+          class="rounded-lg bg-red-50 p-3 text-sm text-red-600"
+        >
+          {{ error }}
+        </div>
+
+
+        <button
+          type="submit"
+          class="w-full rounded-lg bg-orange-500 py-3 font-semibold text-white transition hover:bg-orange-600"
+        >
+          Iniciar sesión
+        </button>
+
+      </form>
+
+
+      <p class="mt-6 text-center text-sm text-gray-500">
+
+        ¿No tienes una cuenta?
+
+        <a
+          routerLink="/register"
+          class="font-semibold text-orange-500 hover:text-orange-600"
+        >
+          Regístrate
+        </a>
+
+      </p>
+
+
+      <div
+        class="mt-6 rounded-lg bg-gray-50 p-4 text-xs text-gray-500"
+      >
+
+        <p class="font-semibold text-gray-700">
+          Usuarios de prueba
+        </p>
+
+        <p class="mt-2">
+          Cliente: cliente@gmail.com / 123456
+        </p>
+
+        <p>
+          Trabajador: trabajador@laguarida.com / 123456
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

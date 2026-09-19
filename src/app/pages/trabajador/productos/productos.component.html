@@ -1,0 +1,101 @@
+<app-nav-bar></app-nav-bar>
+
+<main class="min-h-screen bg-gray-50">
+
+  <div class="mx-auto max-w-7xl px-6 py-10">
+
+    <h1 class="text-3xl font-bold">
+      Productos
+    </h1>
+
+    <p class="mt-2 text-gray-500">
+      Inventario de repuestos disponibles.
+    </p>
+
+
+    <div
+      class="mt-8 overflow-hidden rounded-xl bg-white shadow-sm"
+    >
+
+      <div class="overflow-x-auto">
+
+        <table class="w-full text-left">
+
+          <thead
+            class="border-b bg-gray-50 text-sm text-gray-500"
+          >
+
+            <tr>
+
+              <th class="px-6 py-4">
+                Código
+              </th>
+
+              <th class="px-6 py-4">
+                Producto
+              </th>
+
+              <th class="px-6 py-4">
+                Categoría
+              </th>
+
+              <th class="px-6 py-4">
+                Precio
+              </th>
+
+              <th class="px-6 py-4">
+                Stock
+              </th>
+
+            </tr>
+
+          </thead>
+
+          <tbody>
+
+            <tr
+              *ngFor="let producto of productos"
+              class="border-b last:border-0"
+            >
+
+              <td class="px-6 py-4 text-sm">
+                {{ producto.codigo }}
+              </td>
+
+              <td class="px-6 py-4 font-semibold">
+                {{ producto.nombre }}
+              </td>
+
+              <td class="px-6 py-4 text-sm text-gray-500">
+                {{ producto.categoria }}
+              </td>
+
+              <td class="px-6 py-4">
+                S/ {{ producto.precio.toFixed(2) }}
+              </td>
+
+              <td class="px-6 py-4">
+
+                <span
+                  [class]="producto.stock <= 10
+                    ? 'text-red-500 font-semibold'
+                    : 'text-green-600 font-semibold'"
+                >
+                  {{ producto.stock }}
+                </span>
+
+              </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</main>
