@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
-import { NavBarComponent } from '../../components/nav-bar/nav-bar.component';
-
 import { CarritoItem } from '../../core/class/models/carrito-item';
 import { CarritoService } from '../../core/services/carrito/carrito.service';
 
@@ -12,8 +10,7 @@ import { CarritoService } from '../../core/services/carrito/carrito.service';
   standalone: true,
   imports: [
     CommonModule,
-    RouterLink,
-    NavBarComponent
+    RouterLink
   ],
   templateUrl: './carrito.component.html',
   styleUrl: './carrito.component.css'

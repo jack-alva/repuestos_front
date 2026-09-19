@@ -2,8 +2,6 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
-import { NavBarComponent } from '../../components/nav-bar/nav-bar.component';
-
 import { Producto } from '../../core/class/models/producto';
 import { ProductoService } from '../../core/services/productos/producto.service';
 import { CarritoService } from '../../core/services/carrito/carrito.service';
@@ -22,8 +20,7 @@ interface PuntoGrafico {
   standalone: true,
   imports: [
     CommonModule,
-    RouterLink,
-    NavBarComponent
+    RouterLink
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'

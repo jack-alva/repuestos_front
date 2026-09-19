@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { NavBarComponent } from '../../components/nav-bar/nav-bar.component';
+import { ActivatedRoute } from '@angular/router';
 
 import { Producto } from '../../core/class/models/producto';
 import { ProductoService } from '../../core/services/productos/producto.service';
@@ -13,8 +12,7 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule,
-    NavBarComponent
+    FormsModule
 ],
   templateUrl: './catalogo.component.html',
   styleUrl: './catalogo.component.css'
@@ -31,7 +29,8 @@ export class CatalogoComponent implements OnInit {
 
   constructor(
     private productoService: ProductoService,
-    private carritoService: CarritoService
+    private carritoService: CarritoService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -44,6 +43,11 @@ export class CatalogoComponent implements OnInit {
 
     this.categorias =
       this.productoService.obtenerCategorias();
+
+    this.route.queryParamMap.subscribe(params => {
+      this.busqueda = params.get('busqueda') ?? '';
+      this.filtrar();
+    });
   }
 
   filtrar(): void {

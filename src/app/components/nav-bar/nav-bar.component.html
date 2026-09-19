@@ -40,6 +40,8 @@
 
         <input
           type="text"
+          [(ngModel)]="busqueda"
+          (keydown.enter)="buscar()"
           placeholder="Buscar repuestos..."
           class="w-full bg-transparent text-sm outline-none"
         />

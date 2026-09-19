@@ -1,4 +1,9 @@
-import { Injectable } from '@angular/core';
+import {
+  Inject,
+  Injectable,
+  PLATFORM_ID
+} from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { Usuario } from '../../class/auth/usuario';
 
 @Injectable({
@@ -27,7 +32,13 @@ export class AuthService {
 
   private usuarioActual: Usuario | null = null;
 
-  constructor() {
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: object
+  ) {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+
     const usuario = localStorage.getItem('usuario');
 
     if (usuario) {
@@ -49,10 +60,12 @@ export class AuthService {
 
     this.usuarioActual = usuario;
 
-    localStorage.setItem(
-      'usuario',
-      JSON.stringify(usuario)
-    );
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem(
+        'usuario',
+        JSON.stringify(usuario)
+      );
+    }
 
     return true;
   }
@@ -74,7 +87,10 @@ export class AuthService {
 
   logout(): void {
     this.usuarioActual = null;
-    localStorage.removeItem('usuario');
+
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem('usuario');
+    }
   }
 
   estaAutenticado(): boolean {
