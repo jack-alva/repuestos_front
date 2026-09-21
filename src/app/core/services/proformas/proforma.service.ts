@@ -148,4 +148,9 @@ export class ProformaService {
     return [...this.proformas];
 
   }
+
+  actualizarEstado(id: number, estado: Proforma['estado']): void {
+    this.proformas = this.proformas.map(proforma => proforma.id === id ? { ...proforma, estado } : proforma);
+    this.guardarProformas();
+  }
 }

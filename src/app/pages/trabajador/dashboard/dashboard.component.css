@@ -1,0 +1,8 @@
+:host ::ng-deep .p-datatable-wrapper,
+:host ::ng-deep .p-datatable {
+  overflow: visible !important;
+}
+
+:host ::ng-deep .p-select-overlay {
+  z-index: 3000 !important;
+}

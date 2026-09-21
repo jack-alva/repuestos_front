@@ -2,9 +2,7 @@
 
   <div class="mx-auto max-w-7xl px-6 py-10">
 
-    <h1 class="text-3xl font-bold">
-      Productos
-    </h1>
+    <div class="flex flex-wrap items-center justify-between gap-4"><h1 class="text-3xl font-bold">Productos</h1><button pButton type="button" label="Nuevo producto" icon="pi pi-plus" (click)="mostrarFormulario = true"></button></div>
 
     <p class="mt-2 text-gray-500">
       Inventario de repuestos disponibles.
@@ -15,85 +13,37 @@
       class="mt-8 overflow-hidden rounded-xl bg-white shadow-sm"
     >
 
-      <div class="overflow-x-auto">
-
-        <table class="w-full text-left">
-
-          <thead
-            class="border-b bg-gray-50 text-sm text-gray-500"
-          >
-
-            <tr>
-
-              <th class="px-6 py-4">
-                Código
-              </th>
-
-              <th class="px-6 py-4">
-                Producto
-              </th>
-
-              <th class="px-6 py-4">
-                Categoría
-              </th>
-
-              <th class="px-6 py-4">
-                Precio
-              </th>
-
-              <th class="px-6 py-4">
-                Stock
-              </th>
-
-            </tr>
-
-          </thead>
-
-          <tbody>
-
-            <tr
-              *ngFor="let producto of productos"
-              class="border-b last:border-0"
-            >
-
-              <td class="px-6 py-4 text-sm">
-                {{ producto.codigo }}
-              </td>
-
-              <td class="px-6 py-4 font-semibold">
-                {{ producto.nombre }}
-              </td>
-
-              <td class="px-6 py-4 text-sm text-gray-500">
-                {{ producto.categoria }}
-              </td>
-
-              <td class="px-6 py-4">
-                S/ {{ producto.precio.toFixed(2) }}
-              </td>
-
-              <td class="px-6 py-4">
-
-                <span
-                  [class]="producto.stock <= 10
-                    ? 'text-red-500 font-semibold'
-                    : 'text-green-600 font-semibold'"
-                >
-                  {{ producto.stock }}
-                </span>
-
-              </td>
-
-            </tr>
-
-          </tbody>
-
-        </table>
-
-      </div>
+      <app-crud-table [value]="productos" dataKey="id" emptyMessage="No hay productos registrados.">
+        <ng-template #header>
+          <tr class="bg-orange-50 text-left text-sm text-gray-600">
+            <th class="px-6 py-4">Código</th><th class="px-6 py-4">Producto</th><th class="px-6 py-4">Categoría</th><th class="px-6 py-4">Precio</th><th class="px-6 py-4">Stock</th>
+          </tr>
+        </ng-template>
+        <ng-template #body let-producto>
+          <tr class="border-b border-gray-100 last:border-0">
+            <td class="px-6 py-4 text-sm">{{ producto.codigo }}</td>
+            <td class="px-6 py-4 font-semibold">{{ producto.nombre }}</td>
+            <td class="px-6 py-4 text-sm text-gray-500">{{ producto.categoria }}</td>
+            <td class="px-6 py-4">S/ {{ producto.precio.toFixed(2) }}</td>
+            <td class="px-6 py-4"><span [class]="producto.stock <= 10 ? 'font-semibold text-red-500' : 'font-semibold text-green-600'">{{ producto.stock }}</span></td>
+          </tr>
+        </ng-template>
+      </app-crud-table>
 
     </div>
 
   </div>
+
+  <p-dialog [(visible)]="mostrarFormulario" header="Registrar producto" [modal]="true" [style]="{ width: '34rem' }">
+    <div class="grid gap-4 pt-2 sm:grid-cols-2">
+      <div><label class="mb-1 block text-sm font-medium">Código</label><input pInputText [(ngModel)]="nuevoProducto.codigo" class="w-full" placeholder="REP-007" /></div>
+      <div><label class="mb-1 block text-sm font-medium">Nombre</label><input pInputText [(ngModel)]="nuevoProducto.nombre" class="w-full" /></div>
+      <div><label class="mb-1 block text-sm font-medium">Categoría</label><input pInputText [(ngModel)]="nuevoProducto.categoria" class="w-full" /></div>
+      <div><label class="mb-1 block text-sm font-medium">Marca</label><input pInputText [(ngModel)]="nuevoProducto.marca" class="w-full" /></div>
+      <div><label class="mb-1 block text-sm font-medium">Precio</label><p-inputNumber [(ngModel)]="nuevoProducto.precio" mode="currency" currency="PEN" locale="es-PE" styleClass="w-full" /></div>
+      <div><label class="mb-1 block text-sm font-medium">Stock</label><p-inputNumber [(ngModel)]="nuevoProducto.stock" [min]="0" styleClass="w-full" /></div>
+    </div>
+    <div class="mt-6 flex justify-end gap-2"><button pButton type="button" label="Cancelar" severity="secondary" [text]="true" (click)="mostrarFormulario = false"></button><button pButton type="button" label="Guardar" icon="pi pi-check" (click)="guardarProducto()"></button></div>
+  </p-dialog>
 
 </main>

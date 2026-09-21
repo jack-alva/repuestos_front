@@ -5,7 +5,7 @@ export interface Proforma {
   codigo: string;
   usuarioId: number;
   fecha: string;
-  estado: 'PENDIENTE' | 'ATENDIDA' | 'CANCELADA';
+  estado: 'PENDIENTE' | 'PREPARANDO' | 'LISTO PARA RECOGER' | 'ENTREGADO' | 'CANCELADO';
   total: number;
   detalles: DetalleProforma[];
 }

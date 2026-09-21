@@ -1,138 +1,56 @@
-<nav class="sticky top-0 z-50 border-b border-gray-200 bg-white">
+<nav class="sticky top-0 z-50 border-b border-orange-600 bg-orange-500 text-white shadow-sm">
 
-  <div
-    class="mx-auto flex h-20 max-w-7xl items-center gap-6 px-6"
-  >
-
-    <!-- LOGO -->
-
+  <div class="mx-auto flex h-20 max-w-7xl items-center gap-6 px-6">
     <a
-      routerLink="/home"
-      class="flex min-w-fit items-center gap-2"
-    >
-
-      <div
-        class="flex h-10 w-10 items-center justify-center rounded-lg bg-orange-500 text-xl text-white"
-      >
-        ⚙
+      [routerLink]="rutaPrincipal()"
+      class="flex min-w-fit items-center gap-2">
+      <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-white text-xl text-orange-500">
+        <i class="pi pi-cog" aria-hidden="true"></i>
       </div>
-
-      <span
-        class="text-xl font-bold text-gray-900"
-      >
-        La Guarida
+      <span class="text-xl font-bold text-white">
+        La Guarida de los Repuestos
       </span>
-
     </a>
-
-
-    <!-- BUSCADOR -->
-
-    <div class="hidden flex-1 md:block">
-
-      <div
-        class="flex items-center rounded-lg border border-gray-300 bg-gray-50 px-4 py-2"
-      >
-
-        <span class="mr-2 text-gray-400">
-          🔍
-        </span>
-
-        <input
-          type="text"
-          [(ngModel)]="busqueda"
-          (keydown.enter)="buscar()"
-          placeholder="Buscar repuestos..."
-          class="w-full bg-transparent text-sm outline-none"
-        />
-
-      </div>
-
-    </div>
-
-
-    <!-- CONTRASTE -->
-
-    <button
-      class="hidden rounded-lg px-3 py-2 text-sm text-gray-600 transition hover:bg-gray-100 lg:block"
-    >
-      ◐ Contraste
-    </button>
-
-
-    <!-- CARRITO -->
+    <div *ngIf="mostrarBuscador" class="hidden flex-1 md:block"><app-search-bar /></div>
 
     <a
       routerLink="/carrito"
       *ngIf="authService.obtenerRol() === 'CLIENTE'"
-      class="relative flex items-center gap-2 rounded-lg px-3 py-2 transition hover:bg-gray-100"
-    >
-
-      <span class="text-xl">
-        🛒
-      </span>
-
+      class="relative ml-auto flex items-center gap-2 rounded-lg px-3 py-2 text-white transition hover:bg-orange-600">
+      <i class="pi pi-shopping-cart text-xl" aria-hidden="true"></i>
       <div class="hidden text-right sm:block">
-
-        <p class="text-xs text-gray-500">
+        <p class="text-xs text-orange-100">
           Carrito
         </p>
-
-        <p class="font-semibold text-gray-900">
+        <p class="font-semibold text-white">
           S/ {{ totalCarrito.toFixed(2) }}
         </p>
-
       </div>
-
       <span
         *ngIf="cantidadCarrito > 0"
-        class="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-orange-500 text-xs font-bold text-white"
-      >
+        class="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-orange-500 text-xs font-bold text-white">
         {{ cantidadCarrito }}
       </span>
-
     </a>
-
-
-    <!-- LOGIN -->
-
-    <a
-      *ngIf="!authService.estaAutenticado()"
-      routerLink="/login"
-      class="rounded-lg bg-orange-500 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-orange-600"
-    >
-      Iniciar sesión
-    </a>
-
-
-    <!-- USUARIO -->
-
-    <div
-      *ngIf="authService.estaAutenticado()"
-      class="flex items-center gap-3"
-    >
-
-      <div class="hidden text-right md:block">
-
-        <p class="text-sm font-semibold text-gray-800">
+    <div *ngIf="authService.estaAutenticado()"
+      class="flex items-center gap-3">
+      <a [routerLink]="rutaPanel()" class="hidden text-right text-white transition hover:text-orange-100 md:block">
+        <p class="text-sm font-semibold text-white">
           {{ authService.obtenerUsuario()?.nombre }}
         </p>
-
-        <p class="text-xs text-gray-500">
+        <p class="text-xs text-orange-100">
           {{ authService.obtenerRol() }}
         </p>
-
-      </div>
-
+      </a>
       <button
         (click)="logout()"
-        class="rounded-lg border border-gray-300 px-3 py-2 text-sm transition hover:bg-gray-100"
-      >
-        Salir
+        pButton type="button" 
+        label="Salir" 
+        icon="pi pi-sign-out" 
+        severity="secondary" 
+        [outlined]="true"
+        class="!border-white !bg-white !text-orange-600 hover:!bg-orange-50">
       </button>
-
     </div>
-
   </div>
-
 </nav>

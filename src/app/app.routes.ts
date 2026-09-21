@@ -21,6 +21,7 @@ import { ProformasComponent }
 
 import { ProductosComponent }
   from './pages/trabajador/productos/productos.component';
+import { DashboardUsuarioComponent } from './pages/usuario/dashboard/dashboard-usuario.component';
 
 import { authGuard } from './core/security/auth.guard';
 import { rolGuard } from './core/security/rol.guard';
@@ -82,6 +83,11 @@ export const routes: Routes = [
       authGuard,
       rolGuard(['CLIENTE'])
     ]
+  },
+  {
+    path: 'mi-cuenta',
+    component: DashboardUsuarioComponent,
+    canActivate: [authGuard, rolGuard(['CLIENTE'])]
   },
 
   {

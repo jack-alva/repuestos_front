@@ -38,10 +38,11 @@
           </label>
 
           <input
+            pInputText
             name="nombre"
             [(ngModel)]="nombre"
             required
-            class="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-orange-500"
+            class="w-full"
           />
 
         </div>
@@ -56,10 +57,11 @@
           </label>
 
           <input
+            pInputText
             name="apellido"
             [(ngModel)]="apellido"
             required
-            class="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-orange-500"
+            class="w-full"
           />
 
         </div>
@@ -76,11 +78,12 @@
         </label>
 
         <input
+          pInputText
           type="email"
           name="correo"
           [(ngModel)]="correo"
           required
-          class="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-orange-500"
+          class="w-full"
         />
 
       </div>
@@ -94,13 +97,13 @@
           Contraseña
         </label>
 
-        <input
-          type="password"
+        <p-password
           name="password"
           [(ngModel)]="password"
           required
-          minlength="6"
-          class="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-orange-500"
+          [feedback]="false"
+          [toggleMask]="true"
+          styleClass="w-full"
         />
 
       </div>
@@ -116,9 +119,9 @@
 
       <button
         type="submit"
-        class="w-full rounded-lg bg-orange-500 py-3 font-semibold text-white hover:bg-orange-600"
+        pButton label="Crear cuenta" icon="pi pi-user-plus"
+        class="w-full"
       >
-        Crear cuenta
       </button>
 
     </form>

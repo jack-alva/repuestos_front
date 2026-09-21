@@ -9,4 +9,5 @@ export interface Producto {
   stock: number;
   imagen: string;
   demandaMensual: number;
+  proveedorId?: number;
 }

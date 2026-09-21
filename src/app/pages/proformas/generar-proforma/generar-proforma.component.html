@@ -19,219 +19,117 @@
 
       <button
         (click)="generar()"
-        class="mt-8 rounded-lg bg-orange-500 px-8 py-3 font-semibold text-white hover:bg-orange-600"
+        pButton
+        type="button"
+        label="Generar proforma"
+        icon="pi pi-file-edit"
+        class="mt-8"
       >
-        Generar proforma
       </button>
-
     </div>
-
 
     <div
       *ngIf="proforma"
       id="proforma"
-      class="rounded-xl bg-white p-8 shadow-sm"
-    >
-
+      class="rounded-xl bg-white p-8 shadow-sm">
       <div class="flex justify-between">
-
         <div>
-
-          <p
-            class="text-sm font-semibold uppercase text-orange-500"
-          >
+          <p class="text-sm font-semibold uppercase text-orange-500">
             La Guarida
           </p>
-
           <h1 class="mt-1 text-3xl font-bold">
             PROFORMA
           </h1>
-
         </div>
-
-
         <div class="text-right">
-
           <p class="text-sm text-gray-500">
             Código
           </p>
-
           <p class="text-xl font-bold text-orange-500">
             {{ proforma.codigo }}
           </p>
-
         </div>
-
       </div>
 
-
       <div class="my-8 border-t"></div>
-
-
       <div class="grid gap-4 sm:grid-cols-2">
-
         <div>
-
           <p class="text-xs text-gray-400">
             Fecha
           </p>
-
           <p class="font-medium">
             {{ proforma.fecha | date:'dd/MM/yyyy HH:mm' }}
           </p>
-
         </div>
-
         <div>
-
           <p class="text-xs text-gray-400">
             Estado
           </p>
-
-          <span
-            class="inline-block rounded-full bg-yellow-100 px-3 py-1 text-xs font-semibold text-yellow-700"
-          >
+          <span class="inline-block rounded-full bg-yellow-100 px-3 py-1 text-xs font-semibold text-yellow-700">
             {{ proforma.estado }}
           </span>
-
         </div>
-
       </div>
-
 
       <div class="mt-8 overflow-x-auto">
-
-        <table class="w-full text-left">
-
-          <thead
-            class="border-b border-gray-200 text-sm text-gray-500"
-          >
-
-            <tr>
-
-              <th class="py-3">
-                Producto
-              </th>
-
-              <th class="py-3">
-                Cantidad
-              </th>
-
-              <th class="py-3">
-                Precio
-              </th>
-
-              <th class="py-3 text-right">
-                Subtotal
-              </th>
-
+        <app-crud-table [value]="proforma.detalles" dataKey="codigoProducto" [paginator]="false">
+          <ng-template #header>
+            <tr class="border-b border-gray-200 text-left text-sm text-gray-500">
+              <th class="px-4 py-3">Producto</th>
+              <th class="px-4 py-3">Cantidad</th>
+              <th class="px-4 py-3">Precio</th>
+              <th class="px-4 py-3 text-right">Subtotal</th>
             </tr>
-
-          </thead>
-
-
-          <tbody>
-
-            <tr
-              *ngFor="let detalle of proforma.detalles"
-              class="border-b border-gray-100"
-            >
-
-              <td class="py-4">
-
-                <p class="font-semibold">
-                  {{ detalle.nombreProducto }}
-                </p>
-
-                <p class="text-xs text-gray-400">
-                  {{ detalle.codigoProducto }}
-                </p>
-
+          </ng-template>
+          <ng-template #body let-detalle>
+            <tr class="border-b border-gray-100">
+              <td class="px-4 py-4">
+                <p class="font-semibold">{{ detalle.nombreProducto }}</p>
+                <p class="text-xs text-gray-400">{{ detalle.codigoProducto }}</p>
               </td>
-
-              <td>
-                {{ detalle.cantidad }}
-              </td>
-
-              <td>
-                S/ {{ detalle.precioUnitario.toFixed(2) }}
-              </td>
-
-              <td class="text-right font-semibold">
-                S/ {{ detalle.subtotal.toFixed(2) }}
-              </td>
-
+              <td class="px-4 py-4">{{ detalle.cantidad }}</td>
+              <td class="px-4 py-4">S/ {{ detalle.precioUnitario.toFixed(2) }}</td>
+              <td class="px-4 py-4 text-right font-semibold">S/ {{ detalle.subtotal.toFixed(2) }}</td>
             </tr>
-
-          </tbody>
-
-        </table>
-
+          </ng-template>
+        </app-crud-table>
       </div>
-
-
-      <div
-        class="mt-8 flex justify-end"
-      >
-
+      <div class="mt-8 flex justify-end">
         <div class="w-full max-w-xs">
-
-          <div
-            class="flex justify-between border-t pt-4 text-lg"
-          >
-
+          <div class="flex justify-between border-t pt-4 text-lg">
             <span class="font-semibold">
               Total
             </span>
-
             <span class="font-bold text-orange-500">
               S/ {{ proforma.total.toFixed(2) }}
             </span>
-
           </div>
-
         </div>
-
       </div>
-
-
-      <div
-        class="mt-10 rounded-lg bg-orange-50 p-5 text-sm text-orange-800"
-      >
-
+      <div class="mt-10 rounded-lg bg-orange-50 p-5 text-sm text-orange-800">
         <strong>
           Importante:
         </strong>
-
         Presenta este código en la tienda para
         consultar tu proforma y continuar con el proceso
         de compra.
-
       </div>
-
-
-      <div
-        class="mt-8 flex justify-end gap-3"
-      >
-
+      <div class="mt-8 flex justify-end gap-3">
         <button
           (click)="imprimir()"
-          class="rounded-lg border border-gray-300 px-5 py-2.5 font-semibold hover:bg-gray-50"
-        >
-          🖨 Imprimir
+          pButton
+          type="button"
+          label="Imprimir"
+          icon="pi pi-print"
+          severity="secondary"
+          [outlined]="true">
         </button>
-
         <a
           routerLink="/proformas"
-          class="rounded-lg bg-orange-500 px-5 py-2.5 font-semibold text-white hover:bg-orange-600"
-        >
+          class="rounded-lg bg-orange-500 px-5 py-2.5 font-semibold text-white hover:bg-orange-600">
           Mis proformas
         </a>
-
       </div>
-
     </div>
-
   </div>
-
 </main>

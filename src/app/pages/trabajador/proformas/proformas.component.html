@@ -28,62 +28,10 @@
       class="mt-8 overflow-hidden rounded-xl bg-white shadow-sm"
     >
 
-      <table class="w-full text-left">
-
-        <thead class="border-b bg-gray-50">
-
-          <tr>
-
-            <th class="px-6 py-4">
-              Código
-            </th>
-
-            <th class="px-6 py-4">
-              Fecha
-            </th>
-
-            <th class="px-6 py-4">
-              Estado
-            </th>
-
-            <th class="px-6 py-4">
-              Total
-            </th>
-
-          </tr>
-
-        </thead>
-
-        <tbody>
-
-          <tr
-            *ngFor="let proforma of proformas"
-            class="border-b"
-          >
-
-            <td
-              class="px-6 py-4 font-semibold text-orange-500"
-            >
-              {{ proforma.codigo }}
-            </td>
-
-            <td class="px-6 py-4">
-              {{ proforma.fecha | date:'dd/MM/yyyy HH:mm' }}
-            </td>
-
-            <td class="px-6 py-4">
-              {{ proforma.estado }}
-            </td>
-
-            <td class="px-6 py-4 font-semibold">
-              S/ {{ proforma.total.toFixed(2) }}
-            </td>
-
-          </tr>
-
-        </tbody>
-
-      </table>
+      <app-crud-table [value]="proformas" dataKey="codigo" emptyMessage="No existen proformas registradas.">
+        <ng-template #header><tr class="bg-orange-50 text-left text-sm text-gray-600"><th class="px-6 py-4">Código</th><th class="px-6 py-4">Fecha</th><th class="px-6 py-4">Estado</th><th class="px-6 py-4">Total</th></tr></ng-template>
+        <ng-template #body let-proforma><tr class="border-b border-gray-100"><td class="px-6 py-4 font-semibold text-orange-500">{{ proforma.codigo }}</td><td class="px-6 py-4">{{ proforma.fecha | date:'dd/MM/yyyy HH:mm' }}</td><td class="px-6 py-4"><span class="rounded-full bg-orange-50 px-3 py-1 text-sm font-medium text-orange-700">{{ proforma.estado }}</span></td><td class="px-6 py-4 font-semibold">S/ {{ proforma.total.toFixed(2) }}</td></tr></ng-template>
+      </app-crud-table>
 
     </div>
 

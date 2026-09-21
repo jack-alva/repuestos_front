@@ -8,7 +8,7 @@
     "marca": "Bosch",
     "precio": 35.9,
     "stock": 25,
-    "imagen": "/images/filtro-aceite.jpg",
+    "imagen": "https://www.densoautoparts.com/wp-content/uploads/2022/10/Oil-Filter-web2.png",
     "demandaMensual": 85
   },
   {
@@ -20,7 +20,7 @@
     "marca": "Brembo",
     "precio": 120,
     "stock": 15,
-    "imagen": "/images/pastillas-freno.jpg",
+    "imagen": "https://www.densoautoparts.com/wp-content/uploads/2024/10/DENSO-Brake-Pads-D465B-Front-Clip-A-Straight-2.png",
     "demandaMensual": 72
   },
   {
@@ -32,7 +32,7 @@
     "marca": "NGK",
     "precio": 28.5,
     "stock": 40,
-    "imagen": "/images/bujia.jpg",
+    "imagen": "https://cdn.club-magazin.autodoc.de/uploads/sites/11/2020/10/bujias.jpg",
     "demandaMensual": 64
   },
   {
@@ -44,7 +44,7 @@
     "marca": "Monroe",
     "precio": 280,
     "stock": 8,
-    "imagen": "/images/amortiguador.jpg",
+    "imagen": "https://cdn.club-magazin.autodoc.de/uploads/sites/11/2020/11/amortiguador-de-coche.jpg",
     "demandaMensual": 51
   },
   {
@@ -56,7 +56,7 @@
     "marca": "Gates",
     "precio": 95,
     "stock": 12,
-    "imagen": "/images/correa.jpg",
+    "imagen": "https://blog.tiendasalfa.cl//wp-content/uploads/2024/06/Correas-de-distribucion-tipos.jpg",
     "demandaMensual": 46
   },
   {
@@ -68,7 +68,7 @@
     "marca": "ACDelco",
     "precio": 420,
     "stock": 6,
-    "imagen": "/images/bateria.jpg",
+    "imagen": "https://www.aibitech.com/101947-large_default/baterias-carros-17placas-100ah-cca750-338x174x218-238-mf-camiones-beste-pe-30h-750.jpg",
     "demandaMensual": 38
   },
   {
@@ -80,7 +80,7 @@
     "marca": "Valeo",
     "precio": 350,
     "stock": 7,
-    "imagen": "/images/radiador.jpg",
+    "imagen": "https://www.ford.mx/content/ford/mx/es_mx/home/blog/experto/para-que-sirve-radiador-enero2023/jcr:content/par/common_box_699144750/generalParsys/splitter/splitter1/image/image.imgs.620.high.jpg/1676490603850.jpg",
     "demandaMensual": 32
   },
   {
@@ -92,7 +92,7 @@
     "marca": "Denso",
     "precio": 580,
     "stock": 5,
-    "imagen": "/images/alternador.jpg",
+    "imagen": "https://www.autofacil.es/wp-content/uploads/2021/05/alternador2.jpg",
     "demandaMensual": 29
   }
 ]

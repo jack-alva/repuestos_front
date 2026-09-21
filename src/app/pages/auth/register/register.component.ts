@@ -8,6 +8,9 @@ import {
 } from '@angular/router';
 
 import { AuthService } from '../../../core/services/auth/auth.service';
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
+import { PasswordModule } from 'primeng/password';
 
 @Component({
   selector: 'app-register',
@@ -15,7 +18,10 @@ import { AuthService } from '../../../core/services/auth/auth.service';
   imports: [
     CommonModule,
     FormsModule,
-    RouterLink
+    RouterLink,
+    ButtonModule,
+    InputTextModule,
+    PasswordModule
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'

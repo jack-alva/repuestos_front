@@ -2,12 +2,14 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ProformaService } from '../../../core/services/proformas/proforma.service';
+import { CrudTableComponent } from '../../../shared/components/crud-table/crud-table.component';
 
 @Component({
   selector: 'app-proformas',
   standalone: true,
   imports: [
-    CommonModule
+    CommonModule,
+    CrudTableComponent
   ],
   templateUrl: './proformas.component.html',
   styleUrl: './proformas.component.css'

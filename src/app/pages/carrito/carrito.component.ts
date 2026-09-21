@@ -4,13 +4,15 @@ import { RouterLink } from '@angular/router';
 
 import { CarritoItem } from '../../core/class/models/carrito-item';
 import { CarritoService } from '../../core/services/carrito/carrito.service';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-carrito',
   standalone: true,
   imports: [
     CommonModule,
-    RouterLink
+    RouterLink,
+    ButtonModule
   ],
   templateUrl: './carrito.component.html',
   styleUrl: './carrito.component.css'
@@ -47,5 +49,9 @@ export class CarritoComponent implements OnInit {
 
   eliminar(item: CarritoItem): void {
     this.carritoService.eliminar(item.producto.id);
+  }
+
+  usarImagenAlternativa(evento: Event): void {
+    (evento.target as HTMLImageElement).src = '/images/logo.png';
   }
 }

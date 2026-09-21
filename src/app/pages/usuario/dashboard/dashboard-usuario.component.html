@@ -1,0 +1,33 @@
+<main class="min-h-screen bg-gray-50">
+  <div class="mx-auto max-w-6xl px-6 py-10">
+  <p class="text-sm font-semibold uppercase tracking-wide text-orange-500">Mi cuenta</p>
+  <h1 class="mt-1 text-3xl font-bold text-gray-900">Hola, {{ authService.obtenerUsuario()?.nombre }}</h1>
+  <p class="mt-2 text-gray-500">Gestiona tus repuestos y proformas desde un solo lugar.</p>
+  <section class="mt-8 grid gap-5 md:grid-cols-3">
+    <article class="rounded-xl bg-white p-6 shadow-sm">
+      <i class="pi pi-shopping-cart text-2xl text-orange-500"></i>
+      <p class="mt-4 text-sm text-gray-500">Productos en carrito</p>
+      <p class="mt-1 text-3xl font-bold">{{ cantidadCarrito }}</p>
+      <a routerLink="/carrito" class="mt-4 inline-block text-sm font-semibold text-orange-500">Ver carrito</a>
+    </article>
+    <article class="rounded-xl bg-white p-6 shadow-sm">
+      <i class="pi pi-wallet text-2xl text-orange-500"></i>
+      <p class="mt-4 text-sm text-gray-500">Total estimado</p>
+      <p class="mt-1 text-3xl font-bold">S/ {{ totalCarrito.toFixed(2) }}</p>
+      <a routerLink="/catalogo" class="mt-4 inline-block text-sm font-semibold text-orange-500">Seguir comprando</a>
+    </article>
+    <article class="rounded-xl bg-white p-6 shadow-sm">
+      <i class="pi pi-file text-2xl text-orange-500"></i>
+      <p class="mt-4 text-sm text-gray-500">Proformas</p>
+      <p class="mt-1 text-3xl font-bold">{{ proformas }}</p>      
+    </article>
+  </section>
+  <section class="mt-6 rounded-xl border border-orange-100 bg-orange-50 p-6">
+    <h2 class="font-bold text-gray-900">Accesos rápidos</h2>
+    <div class="mt-4 flex flex-wrap gap-3">
+      <a routerLink="/catalogo" class="rounded-lg bg-orange-500 px-4 py-2 font-semibold text-white hover:bg-orange-600">Explorar catálogo</a>
+      <a routerLink="/proformas" class="rounded-lg border border-orange-300 bg-white px-4 py-2 font-semibold text-orange-700 hover:bg-orange-100">Mis proformas</a>
+    </div>
+  </section>
+</div>
+</main>

@@ -4,13 +4,17 @@ import { Router, RouterLink } from '@angular/router';
 
 import { Proforma } from '../../../core/class/models/proforma';
 import { ProformaService } from '../../../core/services/proformas/proforma.service';
+import { ButtonModule } from 'primeng/button';
+import { CrudTableComponent } from '../../../shared/components/crud-table/crud-table.component';
 
 @Component({
   selector: 'app-generar-proforma',
   standalone: true,
   imports: [
     CommonModule,
-    RouterLink
+    RouterLink,
+    ButtonModule,
+    CrudTableComponent
   ],
   templateUrl: './generar-proforma.component.html',
   styleUrl: './generar-proforma.component.css'

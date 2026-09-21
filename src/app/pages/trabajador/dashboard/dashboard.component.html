@@ -1,86 +1,313 @@
-<main class="min-h-screen bg-gray-50">
-
-  <div class="mx-auto max-w-7xl px-6 py-10">
-
-    <p
-      class="text-sm font-semibold uppercase text-orange-500"
-    >
-      Panel de trabajador
-    </p>
-
-    <h1 class="mt-1 text-3xl font-bold">
-      Dashboard
-    </h1>
-
-    <p class="mt-2 text-gray-500">
-      Administración de La Guarida.
-    </p>
-
-
-    <div
-      class="mt-8 grid gap-6 md:grid-cols-3"
-    >
-
-      <a
-        routerLink="/trabajador/proformas"
-        class="rounded-xl bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
-      >
-
-        <div class="text-3xl">
-          📄
-        </div>
-
-        <h2 class="mt-4 font-bold">
-          Proformas
-        </h2>
-
-        <p class="mt-2 text-sm text-gray-500">
-          Consultar las proformas generadas por los clientes.
-        </p>
-
-      </a>
-
-
-      <a
-        routerLink="/trabajador/productos"
-        class="rounded-xl bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
-      >
-
-        <div class="text-3xl">
-          ⚙️
-        </div>
-
-        <h2 class="mt-4 font-bold">
-          Productos
-        </h2>
-
-        <p class="mt-2 text-sm text-gray-500">
-          Consultar los repuestos disponibles.
-        </p>
-
-      </a>
-
-
-      <div
-        class="rounded-xl bg-orange-500 p-6 text-white"
-      >
-
-        <div class="text-3xl">
-          📊
-        </div>
-
-        <h2 class="mt-4 font-bold">
-          Estadísticas
-        </h2>
-
-        <p class="mt-2 text-sm text-orange-100">
-          Próximamente se mostrarán estadísticas de ventas y demanda.
-        </p>
-
-      </div>
-
+<main class="min-h-screen bg-gray-50"><div class="mx-auto flex max-w-7xl gap-6 px-4 py-8 lg:px-6">
+  <aside class="w-64 shrink-0 rounded-2xl bg-white p-4 shadow-sm">
+    <p class="px-3 text-xs font-bold uppercase tracking-wider text-orange-500">Administrador</p>
+    <h1 class="px-3 py-3 text-xl font-bold">La Guarida</h1>
+    <nav class="space-y-1">
+      <button 
+        *ngFor="let item of 
+        [{id:'proformas',label:'Gestión de proformas',icon:'pi-file'},
+        {id:'productos',label:'Gestión de productos',icon:'pi-box'},
+        {id:'categorias',label:'Categorías',icon:'pi-tags'},
+        {id:'proveedores',label:'Proveedores',icon:'pi-truck'},
+        {id:'estadisticas',label:'Estadísticas',icon:'pi-chart-bar'}]" 
+        (click)="seccion = $any(item.id)" 
+        class="flex w-full cursor-pointer items-center gap-3 rounded-lg px-3 py-3 text-left text-sm font-medium" 
+        [class]="seccion === item.id ? 'bg-orange-500 text-white' : 'text-gray-600 hover:bg-orange-50'">
+        <i class="pi" [class]="item.icon"></i>
+        {{ item.label }}
+      </button>
+    </nav>
+  </aside>
+  <section class="min-w-0 flex-1">
+    <div class="mb-6">
+      <p class="text-sm font-semibold uppercase tracking-wide text-orange-500">Panel administrativo</p>
+      <h2 class="mt-1 text-3xl font-bold text-gray-900">
+        {{ seccion === 'proformas' ? 'Proformas' 
+        : seccion === 'productos' ? 'Productos' 
+        : seccion === 'categorias' ? 'Categorías' 
+        : seccion === 'proveedores' ? 'Proveedores' 
+        : 'Estadísticas' }}
+      </h2>
     </div>
-
+    <ng-container *ngIf="seccion === 'proformas'">
+      <div class="overflow-visible rounded-xl bg-white shadow-sm">
+        <app-crud-table [value]="proformas" dataKey="id" emptyMessage="No hay proformas registradas.">
+          <ng-template #header>
+            <tr class="bg-orange-50 text-left text-sm text-gray-700">
+              <th class="px-4 py-4">Código</th><th class="px-4 py-4">Fecha</th>
+              <th class="px-4 py-4">Total</th><th class="px-4 py-4">Estado</th>
+            </tr
+          ></ng-template>
+          <ng-template #body let-p>
+            <tr class="border-b border-gray-100">
+              <td class="px-4 py-4 font-semibold text-orange-600">{{p.codigo}}</td>
+              <td class="px-4 py-4">{{p.fecha | date:'dd/MM/yyyy HH:mm'}}</td>
+              <td class="px-4 py-4">S/ {{p.total.toFixed(2)}}</td>
+              <td class="px-4 py-4">
+                <p-select 
+                  [ngModel]="p.estado" 
+                  [options]="estados" 
+                  (ngModelChange)="actualizarEstado(p, $event)" 
+                  appendTo="body"
+                  styleClass="w-full">
+                </p-select>
+              </td>
+            </tr>
+          </ng-template>
+        </app-crud-table>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="seccion === 'productos'">
+      <button 
+        pButton type="button" 
+        label="Nuevo producto" 
+        icon="pi pi-plus" 
+        class="mb-4" (click)="abrirProducto()">
+      </button>
+      <div class="overflow-hidden rounded-xl bg-white shadow-sm">
+        <app-crud-table [value]="productos" dataKey="id">
+          <ng-template #header>
+            <tr class="bg-orange-50 text-left text-sm text-gray-700">
+              <th class="px-4 py-4">Código</th>
+              <th class="px-4 py-4">Producto</th>
+              <th class="px-4 py-4">Categoría</th>
+              <th class="px-4 py-4">Stock</th>
+              <th class="px-4 py-4">Opciones</th>
+            </tr>
+          </ng-template>
+          <ng-template #body let-p>
+            <tr class="border-b border-gray-100">
+              <td class="px-4 py-4">{{p.codigo}}</td>
+              <td class="px-4 py-4 font-semibold">{{p.nombre}}</td>
+              <td class="px-4 py-4">{{p.categoria}}</td>
+              <td class="px-4 py-4">{{p.stock}}</td>
+              <td class="px-4 py-4">
+                <button 
+                  pButton type="button" 
+                  icon="pi pi-pencil" 
+                  [text]="true" aria-label="Editar" 
+                  (click)="abrirProducto(p)">
+                </button>
+                <button 
+                  pButton type="button" 
+                  icon="pi pi-trash" 
+                  severity="danger" 
+                  [text]="true" aria-label="Eliminar" 
+                  (click)="eliminarProducto(p.id)">
+                </button>
+              </td>
+            </tr>
+          </ng-template>
+        </app-crud-table>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="seccion === 'categorias'">
+      <button 
+        pButton type="button" 
+        label="Nueva categoría" 
+        icon="pi pi-plus" 
+        class="mb-4" 
+        (click)="categoria={id:0,nombre:''};dialogo='categoria'">
+      </button>
+      <div class="overflow-hidden rounded-xl bg-white shadow-sm">
+        <app-crud-table [value]="categorias" dataKey="id">
+          <ng-template #header>
+            <tr class="bg-orange-50 text-left text-sm text-gray-700">
+              <th class="px-4 py-4">Nombre</th>
+              <th class="px-4 py-4">Opciones</th>
+            </tr>
+          </ng-template>
+          <ng-template #body let-c>
+            <tr class="border-b border-gray-100">
+              <td class="px-4 py-4 font-medium">{{c.nombre}}</td>
+              <td class="px-4 py-4">
+                <button 
+                  pButton type="button" 
+                  icon="pi pi-pencil" 
+                  [text]="true" aria-label="Editar" 
+                  (click)="editarCategoria(c)">
+                </button>
+                <button 
+                  pButton type="button" 
+                  icon="pi pi-trash" 
+                  severity="danger" 
+                  [text]="true" aria-label="Eliminar" 
+                  (click)="eliminarCategoria(c.id)">
+                </button>
+              </td>
+            </tr>
+          </ng-template>
+        </app-crud-table>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="seccion === 'proveedores'">
+      <button 
+        pButton type="button" 
+        label="Nuevo proveedor" 
+        icon="pi pi-plus" class="mb-4" 
+        (click)="proveedor={id:0,nombre:'',telefono:'',correo:''};dialogo='proveedor'">
+      </button>
+      <div class="overflow-hidden rounded-xl bg-white shadow-sm">
+        <app-crud-table [value]="proveedores" dataKey="id">
+          <ng-template #header>
+            <tr class="bg-orange-50 text-left text-sm text-gray-700">
+              <th class="px-4 py-4">Proveedor</th>
+              <th class="px-4 py-4">Teléfono</th>
+              <th class="px-4 py-4">Correo</th>
+              <th class="px-4 py-4">Opciones</th>
+            </tr>
+          </ng-template>
+          <ng-template #body let-v>
+            <tr class="border-b border-gray-100">
+              <td class="px-4 py-4 font-medium">{{v.nombre}}</td>
+              <td class="px-4 py-4">{{v.telefono}}</td>
+              <td class="px-4 py-4">{{v.correo}}</td>
+              <td class="px-4 py-4">
+                <button 
+                  pButton type="button" 
+                  icon="pi pi-pencil" 
+                  [text]="true" aria-label="Editar" 
+                  (click)="editarProveedor(v)">
+                </button>
+                <button 
+                  pButton type="button" 
+                  icon="pi pi-trash" 
+                  severity="danger" 
+                  [text]="true" aria-label="Eliminar" 
+                  (click)="eliminarProveedor(v.id)">
+                </button>
+              </td>
+            </tr>
+          </ng-template>
+        </app-crud-table>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="seccion === 'estadisticas'">
+      <div class="grid gap-4 md:grid-cols-3">
+        <article class="rounded-xl bg-white p-6 shadow-sm">
+          <p class="text-sm text-gray-500">Productos</p>
+          <p class="mt-2 text-3xl font-bold text-orange-500">{{productos.length}}</p>
+        </article>
+        <article class="rounded-xl bg-white p-6 shadow-sm">
+          <p class="text-sm text-gray-500">Stock bajo</p>
+          <p class="mt-2 text-3xl font-bold text-orange-500">{{stockBajo}}</p>
+        </article>
+        <article class="rounded-xl bg-white p-6 shadow-sm">
+          <p class="text-sm text-gray-500">Proformas</p>
+          <p class="mt-2 text-3xl font-bold text-orange-500">{{proformas.length}}</p>
+        </article>
+      </div>
+    </ng-container>
+  </section>
+</div>
+<p-dialog 
+  [visible]="dialogo === 'producto'" header="Producto" 
+  [modal]="true" 
+  [style]="{width:'40rem'}" 
+  (visibleChange)="dialogo = $event ? 'producto' : null">
+  <div class="grid gap-4 sm:grid-cols-2"><div>
+    <label class="mb-1 block text-sm">Código</label>
+    <input InputText [ngModel]="producto.codigo" readonly class="w-full bg-gray-100" />
   </div>
-
+  <div>
+    <label class="mb-1 block text-sm">Nombre</label>
+    <input pInputText [(ngModel)]="producto.nombre" class="w-full" />
+  </div>
+  <div>
+    <label class="mb-1 block text-sm">Categoría</label>
+    <p-select 
+      [(ngModel)]="producto.categoria" 
+      [options]="categorias" 
+      optionLabel="nombre" 
+      optionValue="nombre" 
+      styleClass="w-full">
+    </p-select>
+  </div>
+  <div>
+    <label class="mb-1 block text-sm">Proveedor</label>
+    <p-select
+      [(ngModel)]="producto.proveedorId" 
+      [options]="proveedores" 
+      optionLabel="nombre" 
+      optionValue="id" 
+      styleClass="w-full">
+    </p-select>
+  </div>
+  <div>
+    <label class="mb-1 block text-sm">Marca</label>
+    <input pInputText [(ngModel)]="producto.marca" class="w-full" />
+  </div>
+  <div>
+    <label class="mb-1 block text-sm">Imagen (URL)</label>
+    <input pInputText [(ngModel)]="producto.imagen" class="w-full" />
+  </div>
+  <div>
+    <label class="mb-1 block text-sm">Precio</label>
+    <p-inputNumber 
+      [(ngModel)]="producto.precio" 
+      mode="currency" 
+      currency="PEN" 
+      locale="es-PE" 
+      styleClass="w-full">
+    </p-inputNumber>
+  </div>
+  <div>
+    <label class="mb-1 block text-sm">Stock</label>
+    <p-inputNumber 
+      [(ngModel)]="producto.stock" 
+      [min]="0" styleClass="w-full">
+    </p-inputNumber>
+  </div>
+</div>
+<div class="mt-6 flex justify-end">
+  <button 
+    pButton type="button" 
+    label="Guardar" 
+    icon="pi pi-check" 
+    (click)="guardarProducto()">
+  </button>
+</div>
+</p-dialog>
+<p-dialog 
+  [visible]="dialogo === 'categoria'" 
+  header="Categoría" 
+  [modal]="true" 
+  [style]="{width:'28rem'}" 
+  (visibleChange)="dialogo = $event ? 'categoria' : null">
+  <label class="mb-1 block text-sm">Nombre</label>
+  <input pInputText [(ngModel)]="categoria.nombre" class="w-full" />
+  <div class="mt-6 flex justify-end">
+    <button  
+      pButton type="button" 
+      label="Guardar" 
+      icon="pi pi-check" 
+      (click)="guardarCategoria()">
+    </button>
+  </div>
+</p-dialog>
+<p-dialog 
+  [visible]="dialogo === 'proveedor'" 
+  header="Proveedor" 
+  [modal]="true" 
+  [style]="{width:'32rem'}" 
+  (visibleChange)="dialogo = $event ? 'proveedor' : null">
+  <div class="grid gap-4">
+    <div>
+      <label class="mb-1 block text-sm">Nombre</label>
+      <input pInputText [(ngModel)]="proveedor.nombre" class="w-full" />
+    </div>
+    <div>
+      <label class="mb-1 block text-sm">Teléfono</label>
+      <input pInputText [(ngModel)]="proveedor.telefono" class="w-full" />
+    </div>
+    <div>
+      <label class="mb-1 block text-sm">Correo</label>
+      <input pInputText [(ngModel)]="proveedor.correo" class="w-full" />
+    </div>
+  </div>
+  <div class="mt-6 flex justify-end">
+    <button pButton type="button" label="Guardar" icon="pi pi-check" (click)="guardarProveedor()">
+    </button>
+  </div>
+</p-dialog>
 </main>

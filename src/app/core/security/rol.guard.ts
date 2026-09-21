@@ -17,6 +17,8 @@ export const rolGuard = (
       return true;
     }
 
-    return router.createUrlTree(['/home']);
+    return router.createUrlTree([
+      rol === 'TRABAJADOR' ? '/trabajador/dashboard' : '/home'
+    ]);
   };
 };

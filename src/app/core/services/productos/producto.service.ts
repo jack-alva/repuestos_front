@@ -1,89 +1,53 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { Producto } from '../../class/models/producto';
+import productosIniciales from '../../../data/productos.json';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductoService {
 
-  private productos: Producto[] = [
-    {
-      id: 1,
-      codigo: 'REP-001',
-      nombre: 'Filtro de aceite',
-      descripcion: 'Filtro de aceite para motor',
-      categoria: 'Filtros',
-      marca: 'Bosch',
-      precio: 35.90,
-      stock: 25,
-      imagen: '/images/filtro-aceite.jpg',
-      demandaMensual: 85
-    },
-    {
-      id: 2,
-      codigo: 'REP-002',
-      nombre: 'Pastillas de freno',
-      descripcion: 'Juego de pastillas de freno delanteras',
-      categoria: 'Frenos',
-      marca: 'Brembo',
-      precio: 120,
-      stock: 15,
-      imagen: '/images/pastillas-freno.jpg',
-      demandaMensual: 72
-    },
-    {
-      id: 3,
-      codigo: 'REP-003',
-      nombre: 'Bujía',
-      descripcion: 'Bujía para motor de gasolina',
-      categoria: 'Motor',
-      marca: 'NGK',
-      precio: 28.50,
-      stock: 40,
-      imagen: '/images/bujia.jpg',
-      demandaMensual: 64
-    },
-    {
-      id: 4,
-      codigo: 'REP-004',
-      nombre: 'Amortiguador delantero',
-      descripcion: 'Amortiguador delantero para automóvil',
-      categoria: 'Suspensión',
-      marca: 'Monroe',
-      precio: 280,
-      stock: 8,
-      imagen: '/images/amortiguador.jpg',
-      demandaMensual: 51
-    },
-    {
-      id: 5,
-      codigo: 'REP-005',
-      nombre: 'Correa de distribución',
-      descripcion: 'Correa de distribución para motor',
-      categoria: 'Motor',
-      marca: 'Gates',
-      precio: 95,
-      stock: 12,
-      imagen: '/images/correa.jpg',
-      demandaMensual: 46
-    },
-    {
-      id: 6,
-      codigo: 'REP-006',
-      nombre: 'Batería 12V',
-      descripcion: 'Batería automotriz de 12 voltios',
-      categoria: 'Eléctrico',
-      marca: 'ACDelco',
-      precio: 420,
-      stock: 6,
-      imagen: '/images/bateria.jpg',
-      demandaMensual: 38
+  private readonly storageKey = 'laguarida_productos';
+
+  private productos: Producto[] = productosIniciales as Producto[];
+
+  constructor(@Inject(PLATFORM_ID) private platformId: object) {
+    if (isPlatformBrowser(this.platformId)) {
+      const guardados = localStorage.getItem(this.storageKey);
+      if (guardados) {
+        const locales = JSON.parse(guardados) as Producto[];
+        const adicionales = locales.filter(local => !this.productos.some(base => base.id === local.id));
+        this.productos = [...this.productos, ...adicionales];
+        this.persistir();
+      }
     }
-  ];
+  }
 
   obtenerProductos(): Producto[] {
     return this.productos;
   }
+
+  agregarProducto(datos: Omit<Producto, 'id'>): Producto {
+    const producto: Producto = { ...datos, id: Math.max(0, ...this.productos.map(item => item.id)) + 1 };
+    this.productos = [...this.productos, producto];
+    if (isPlatformBrowser(this.platformId)) localStorage.setItem(this.storageKey, JSON.stringify(this.productos));
+    return producto;
+  }
+
+  actualizarProducto(producto: Producto): void {
+    this.productos = this.productos.map(item => item.id === producto.id ? { ...producto } : item);
+    this.persistir();
+  }
+
+  eliminarProducto(id: number): void { this.productos = this.productos.filter(producto => producto.id !== id); this.persistir(); }
+
+  siguienteCodigo(): string {
+    const numero = Math.max(0, ...this.productos.map(producto => Number(producto.codigo.replace(/\D/g, '')) || 0)) + 1;
+    return `REP-${String(numero).padStart(3, '0')}`;
+  }
+
+  private persistir(): void { if (isPlatformBrowser(this.platformId)) localStorage.setItem(this.storageKey, JSON.stringify(this.productos)); }
 
   obtenerProductoPorId(id: number): Producto | undefined {
     return this.productos.find(

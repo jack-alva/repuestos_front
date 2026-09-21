@@ -1,0 +1,9 @@
+<div class="flex items-center rounded-lg border border-gray-300 bg-white px-4 py-2 shadow-sm">
+  <i class="pi pi-search mr-2 text-orange-500" aria-hidden="true"></i>
+  <input 
+    pInputText type="search" 
+    [(ngModel)]="busqueda" 
+    (keydown.enter)="buscar()" 
+    placeholder="Buscar repuestos..." 
+    class="w-full border-0 bg-white text-sm shadow-none" />
+</div>

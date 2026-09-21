@@ -3,24 +3,24 @@ import {
   OnInit
 } from '@angular/core';
 
-import {
-  Router,
-  RouterLink
-} from '@angular/router';
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
 
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 
 import { AuthService } from '../../core/services/auth/auth.service';
 import { CarritoService } from '../../core/services/carrito/carrito.service';
+import { ButtonModule } from 'primeng/button';
+import { filter } from 'rxjs';
+import { SearchBarComponent } from '../search-bar/search-bar.component';
 
 @Component({
   selector: 'app-nav-bar',
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule,
-    RouterLink
+    RouterLink,
+    ButtonModule,
+    SearchBarComponent
   ],
   templateUrl: './nav-bar.component.html',
   styleUrl: './nav-bar.component.css'
@@ -29,7 +29,7 @@ export class NavBarComponent implements OnInit {
 
   cantidadCarrito = 0;
   totalCarrito = 0;
-  busqueda = '';
+  mostrarBuscador = false;
 
   constructor(
     public authService: AuthService,
@@ -48,6 +48,10 @@ export class NavBarComponent implements OnInit {
         this.carritoService.obtenerTotal();
 
     });
+    this.mostrarBuscador = this.esRutaConBusqueda(this.router.url);
+    this.router.events.pipe(filter(evento => evento instanceof NavigationEnd)).subscribe(evento => {
+      this.mostrarBuscador = this.esRutaConBusqueda((evento as NavigationEnd).urlAfterRedirects);
+    });
 
   }
 
@@ -59,13 +63,15 @@ export class NavBarComponent implements OnInit {
 
   }
 
-  buscar(): void {
+  rutaPanel(): string {
+    return this.authService.obtenerRol() === 'TRABAJADOR' ? '/trabajador/dashboard' : '/mi-cuenta';
+  }
 
-    const termino = this.busqueda.trim();
+  rutaPrincipal(): string { 
+    return this.authService.obtenerRol() === 'TRABAJADOR' ? '/trabajador/dashboard' : '/home'; 
+  }
 
-    this.router.navigate(['/catalogo'], {
-      queryParams: termino ? { busqueda: termino } : {}
-    });
-
+  private esRutaConBusqueda(url: string): boolean {
+    return url.startsWith('/home') || url.startsWith('/catalogo');
   }
 }
