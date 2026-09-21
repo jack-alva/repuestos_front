@@ -32,6 +32,13 @@
         {{ cantidadCarrito }}
       </span>
     </a>
+    <a
+      *ngIf="!authService.estaAutenticado()"
+      routerLink="/login"
+      class="ml-auto rounded-lg bg-white px-5 py-2.5 text-sm font-semibold text-orange-600 transition hover:bg-orange-50"
+    >
+      Iniciar sesión
+    </a>
     <div *ngIf="authService.estaAutenticado()"
       class="flex items-center gap-3">
       <a [routerLink]="rutaPanel()" class="hidden text-right text-white transition hover:text-orange-100 md:block">

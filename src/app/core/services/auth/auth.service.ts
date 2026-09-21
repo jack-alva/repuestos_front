@@ -11,6 +11,8 @@ import { Usuario } from '../../class/auth/usuario';
 })
 export class AuthService {
 
+  private readonly storageKey = 'laguarida_usuarios';
+
   private usuarios: Usuario[] = [
     {
       id: 1,
@@ -18,7 +20,7 @@ export class AuthService {
       apellido: 'Pérez',
       correo: 'cliente@gmail.com',
       password: '123456',
-      rol: 'CLIENTE'
+      rol: 'CLIENTE', dni: '12345678', telefono: '999111222', activo: true
     },
     {
       id: 2,
@@ -26,7 +28,7 @@ export class AuthService {
       apellido: 'García',
       correo: 'trabajador@laguarida.com',
       password: '123456',
-      rol: 'TRABAJADOR'
+      rol: 'TRABAJADOR', dni: '87654321', telefono: '999333444', activo: true
     }
   ];
 
@@ -39,6 +41,16 @@ export class AuthService {
       return;
     }
 
+    const usuarios = localStorage.getItem(this.storageKey);
+    if (usuarios) {
+      this.usuarios = (JSON.parse(usuarios) as Usuario[]).map(usuario => ({
+        ...usuario,
+        dni: usuario.dni ?? '',
+        telefono: usuario.telefono ?? '',
+        activo: usuario.activo !== false
+      }));
+      this.guardarUsuarios();
+    }
     const usuario = localStorage.getItem('usuario');
 
     if (usuario) {
@@ -51,7 +63,7 @@ export class AuthService {
     const usuario = this.usuarios.find(
       u =>
         u.correo === correo &&
-        u.password === password
+        u.password === password && u.activo !== false
     );
 
     if (!usuario) {
@@ -80,7 +92,8 @@ export class AuthService {
       return false;
     }
 
-    this.usuarios.push(usuario);
+    this.usuarios.push({ ...usuario, activo: true });
+    this.guardarUsuarios();
 
     return true;
   }
@@ -103,5 +116,17 @@ export class AuthService {
 
   obtenerRol(): 'CLIENTE' | 'TRABAJADOR' | null {
     return this.usuarioActual?.rol ?? null;
+  }
+
+  obtenerUsuarios(): Usuario[] { return this.usuarios.map(usuario => ({ ...usuario, password: '' })); }
+
+  cambiarEstadoUsuario(id: number, activo: boolean): void {
+    this.usuarios = this.usuarios.map(usuario => usuario.id === id ? { ...usuario, activo } : usuario);
+    if (this.usuarioActual?.id === id && !activo) this.logout();
+    this.guardarUsuarios();
+  }
+
+  private guardarUsuarios(): void {
+    if (isPlatformBrowser(this.platformId)) localStorage.setItem(this.storageKey, JSON.stringify(this.usuarios));
   }
 }

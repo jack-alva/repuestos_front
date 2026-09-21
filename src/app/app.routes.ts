@@ -22,6 +22,7 @@ import { ProformasComponent }
 import { ProductosComponent }
   from './pages/trabajador/productos/productos.component';
 import { DashboardUsuarioComponent } from './pages/usuario/dashboard/dashboard-usuario.component';
+import { DetalleProformaComponent } from './pages/proformas/detalle-proforma/detalle-proforma.component';
 
 import { authGuard } from './core/security/auth.guard';
 import { rolGuard } from './core/security/rol.guard';
@@ -84,6 +85,7 @@ export const routes: Routes = [
       rolGuard(['CLIENTE'])
     ]
   },
+  { path: 'proformas/:codigo', component: DetalleProformaComponent, canActivate: [authGuard, rolGuard(['CLIENTE'])] },
   {
     path: 'mi-cuenta',
     component: DashboardUsuarioComponent,

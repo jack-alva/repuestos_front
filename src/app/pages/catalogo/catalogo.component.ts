@@ -31,9 +31,13 @@ export class CatalogoComponent implements OnInit {
 
   busqueda = '';
   categoria = '';
+  marca = '';
+  disponibilidad = '';
 
   categorias: string[] = [];
   categoriasOpciones: { label: string; value: string }[] = [];
+  marcasOpciones: { label: string; value: string }[] = [];
+  disponibilidadOpciones = [{ label: 'Toda disponibilidad', value: '' }, { label: 'Con stock', value: 'disponible' }, { label: 'Sin stock', value: 'agotado' }];
 
   constructor(
     private productoService: ProductoService,
@@ -56,6 +60,7 @@ export class CatalogoComponent implements OnInit {
       { label: 'Todas las categorías', value: '' },
       ...this.categorias.map(categoria => ({ label: categoria, value: categoria }))
     ];
+    this.marcasOpciones = [{ label: 'Todas las marcas', value: '' }, ...[...new Set(this.productos.map(producto => producto.marca))].map(marca => ({ label: marca, value: marca }))];
 
     this.route.queryParamMap.subscribe(params => {
       this.busqueda = params.get('busqueda') ?? '';
@@ -75,13 +80,16 @@ export class CatalogoComponent implements OnInit {
           !termino ||
           producto.nombre.toLowerCase().includes(termino) ||
           producto.codigo.toLowerCase().includes(termino) ||
-          producto.marca.toLowerCase().includes(termino);
+          producto.marca.toLowerCase().includes(termino) ||
+          (producto.modeloCompatible ?? '').toLowerCase().includes(termino);
 
         const coincideCategoria =
           !this.categoria ||
           producto.categoria === this.categoria;
 
-        return coincideTexto && coincideCategoria;
+        const coincideMarca = !this.marca || producto.marca === this.marca;
+        const coincideDisponibilidad = !this.disponibilidad || (this.disponibilidad === 'disponible' ? producto.stock > 0 : producto.stock === 0);
+        return coincideTexto && coincideCategoria && coincideMarca && coincideDisponibilidad;
 
       });
   }

@@ -25,9 +25,29 @@
           optionValue="value"
           placeholder="Todas las categorías"
           styleClass="mt-2 w-full"/>
+        <label class="mt-4 block text-sm font-medium text-gray-700">Marca</label>
+        <p-select 
+          [(ngModel)]="marca" 
+          (onChange)="filtrar()" 
+          [options]="marcasOpciones" 
+          optionLabel="label" 
+          optionValue="value" 
+          styleClass="mt-2 w-full" />
+        <label class="mt-4 block text-sm font-medium text-gray-700">Disponibilidad</label>
+        <p-select 
+          [(ngModel)]="disponibilidad" 
+          (onChange)="filtrar()" 
+          [options]="disponibilidadOpciones" 
+          optionLabel="label" 
+          optionValue="value" 
+          styleClass="mt-2 w-full" />
         <button
-          (click)="categoria = ''; busqueda = ''; filtrar()"
-          pButton type="button" label="Limpiar filtros" icon="pi pi-filter-slash" severity="secondary" [outlined]="true"
+          (click)="categoria = ''; marca = ''; disponibilidad = ''; busqueda = ''; filtrar()"
+          pButton type="button" 
+          label="Limpiar filtros" 
+          icon="pi pi-filter-slash" 
+          severity="secondary" 
+          [outlined]="true"
           class="mt-4 w-full">
         </button>
       </aside>
@@ -70,6 +90,7 @@
               <p class="mt-1 text-sm text-gray-500">
                 {{ producto.marca }}
               </p>
+              <p class="mt-1 text-xs text-gray-500" *ngIf="producto.modeloCompatible">Compatible: {{ producto.modeloCompatible }}</p>
               <p class="mt-3 text-lg font-bold text-gray-900">
                 S/ {{ producto.precio.toFixed(2) }}
               </p>

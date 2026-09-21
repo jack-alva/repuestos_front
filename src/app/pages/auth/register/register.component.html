@@ -1,82 +1,59 @@
-<div
-  class="flex min-h-screen items-center justify-center bg-gray-100 px-6 py-10"
->
-
-  <div
-    class="w-full max-w-lg rounded-2xl bg-white p-8 shadow-xl"
-  >
-
+<div class="flex min-h-screen items-center justify-center bg-gray-100 px-6 py-10">
+  <div class="w-full max-w-lg rounded-2xl bg-white p-8 shadow-xl">
     <a
       routerLink="/home"
-      class="text-sm text-gray-500 hover:text-orange-500"
-    >
-      ← Volver al inicio
+      class="text-sm text-gray-500 hover:text-orange-500">
+      Volver al inicio
     </a>
-
     <h1 class="mt-8 text-3xl font-bold text-gray-900">
       Crear cuenta
     </h1>
-
     <p class="mt-2 text-gray-500">
       Regístrate como cliente de La Guarida.
     </p>
-
-
     <form
       (ngSubmit)="registrar()"
-      class="mt-8 space-y-5"
-    >
-
+      class="mt-8 space-y-5">
       <div class="grid gap-5 sm:grid-cols-2">
-
         <div>
-
           <label
-            class="mb-2 block text-sm font-medium"
-          >
+            class="mb-2 block text-sm font-medium">
             Nombre
           </label>
-
           <input
             pInputText
             name="nombre"
             [(ngModel)]="nombre"
             required
-            class="w-full"
-          />
-
+            class="w-full"/>
         </div>
-
-
         <div>
-
           <label
-            class="mb-2 block text-sm font-medium"
-          >
+            class="mb-2 block text-sm font-medium">
             Apellido
           </label>
-
           <input
             pInputText
             name="apellido"
             [(ngModel)]="apellido"
             required
-            class="w-full"
-          />
-
+            class="w-full"/>
         </div>
-
       </div>
-
-
+      <div class="grid gap-5 sm:grid-cols-2">
+        <div>
+          <label class="mb-2 block text-sm font-medium">DNI</label>
+          <input pInputText name="dni" [(ngModel)]="dni" required maxlength="8" class="w-full" />
+        </div>
+        <div>
+          <label class="mb-2 block text-sm font-medium">Teléfono</label>
+          <input pInputText name="telefono" [(ngModel)]="telefono" required class="w-full" />
+        </div>
+      </div>
       <div>
-
-        <label
-          class="mb-2 block text-sm font-medium"
-        >
+        <label class="mb-2 block text-sm font-medium">
           Correo electrónico
         </label>
-
         <input
           pInputText
           type="email"
@@ -85,18 +62,11 @@
           required
           class="w-full"
         />
-
       </div>
-
-
       <div>
-
-        <label
-          class="mb-2 block text-sm font-medium"
-        >
+        <label class="mb-2 block text-sm font-medium">
           Contraseña
         </label>
-
         <p-password
           name="password"
           [(ngModel)]="password"
@@ -105,41 +75,25 @@
           [toggleMask]="true"
           styleClass="w-full"
         />
-
       </div>
-
-
       <div
         *ngIf="error"
-        class="rounded-lg bg-red-50 p-3 text-sm text-red-600"
-      >
+        class="rounded-lg bg-red-50 p-3 text-sm text-red-600">
         {{ error }}
       </div>
-
-
       <button
         type="submit"
         pButton label="Crear cuenta" icon="pi pi-user-plus"
-        class="w-full"
-      >
+        class="w-full">
       </button>
-
     </form>
-
-
     <p class="mt-6 text-center text-sm text-gray-500">
-
       ¿Ya tienes una cuenta?
-
       <a
         routerLink="/login"
-        class="font-semibold text-orange-500"
-      >
+        class="font-semibold text-orange-500">
         Inicia sesión
       </a>
-
     </p>
-
   </div>
-
 </div>

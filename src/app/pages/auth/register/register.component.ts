@@ -32,6 +32,8 @@ export class RegisterComponent {
   apellido = '';
   correo = '';
   password = '';
+  dni = '';
+  telefono = '';
 
   error = '';
 
@@ -48,7 +50,7 @@ export class RegisterComponent {
       !this.nombre ||
       !this.apellido ||
       !this.correo ||
-      !this.password
+      !this.password || !this.dni || !this.telefono
     ) {
 
       this.error =
@@ -70,7 +72,10 @@ export class RegisterComponent {
 
         password: this.password,
 
-        rol: 'CLIENTE'
+        rol: 'CLIENTE',
+        dni: this.dni,
+        telefono: this.telefono,
+        activo: true
 
       });
 

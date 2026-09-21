@@ -42,7 +42,7 @@ export class ProductosComponent {
 
   guardarProducto(): void {
     if (!this.nuevoProducto.codigo || !this.nuevoProducto.nombre || !this.nuevoProducto.categoria || !this.nuevoProducto.marca || this.nuevoProducto.precio <= 0 || this.nuevoProducto.stock < 0) return;
-    this.productoService.agregarProducto({ ...this.nuevoProducto, imagen: '', descripcion: this.nuevoProducto.nombre, demandaMensual: 0 });
+    this.productoService.agregarProducto({ ...this.nuevoProducto, imagen: '', descripcion: this.nuevoProducto.nombre, demandaMensual: 0, modeloCompatible: '' });
     this.productos = this.productoService.obtenerProductos();
     this.mostrarFormulario = false;
     this.nuevoProducto = this.crearFormulario();

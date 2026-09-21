@@ -5,4 +5,7 @@ export interface Usuario {
   correo: string;
   password: string;
   rol: 'CLIENTE' | 'TRABAJADOR';
+  dni: string;
+  telefono: string;
+  activo: boolean;
 }

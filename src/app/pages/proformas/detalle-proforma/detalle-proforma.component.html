@@ -1,0 +1,31 @@
+<main class="min-h-screen bg-gray-50 px-6 py-10">
+    <section *ngIf="proforma" class="mx-auto max-w-3xl rounded-xl bg-white p-8 shadow-sm">
+        <div class="flex justify-between">
+            <div>
+                <p class="text-sm font-semibold text-orange-500">LA GUARIDA DE LOS REPUESTOS</p>
+                <h1 class="text-2xl font-bold">Resumen de pedido</h1>
+            </div>
+            <strong class="text-orange-600">{{proforma.codigo}}</strong>
+        </div>
+        <p class="mt-4 text-sm text-gray-500">Estado: <b>{{proforma.estado}}</b></p>
+        <div class="mt-6 divide-y">
+            <div *ngFor="let d of proforma.detalles" class="flex justify-between py-3">
+                <span>{{d.nombreProducto}} x {{d.cantidad}}</span>
+                <strong>S/ {{d.subtotal.toFixed(2)}}</strong>
+            </div>
+        </div>
+        <div class="mt-5 flex justify-between border-t pt-4 text-lg font-bold">
+            <span>Total</span>
+            <span>S/ {{proforma.total.toFixed(2)}}</span>
+        </div>
+        <div class="mt-7 flex gap-3">
+            <button 
+                pButton type="button" 
+                label="Imprimir comprobante" 
+                icon="pi pi-print" 
+                (click)="imprimir()">
+            </button>
+            <a routerLink="/proformas" class="rounded-lg border border-gray-300 px-4 py-2">Volver</a>
+        </div>
+    </section>
+</main>

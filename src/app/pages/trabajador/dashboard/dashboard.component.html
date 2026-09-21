@@ -9,6 +9,7 @@
         {id:'productos',label:'Gestión de productos',icon:'pi-box'},
         {id:'categorias',label:'Categorías',icon:'pi-tags'},
         {id:'proveedores',label:'Proveedores',icon:'pi-truck'},
+        {id:'usuarios',label:'Usuarios',icon:'pi-users'},
         {id:'estadisticas',label:'Estadísticas',icon:'pi-chart-bar'}]" 
         (click)="seccion = $any(item.id)" 
         class="flex w-full cursor-pointer items-center gap-3 rounded-lg px-3 py-3 text-left text-sm font-medium" 
@@ -26,6 +27,7 @@
         : seccion === 'productos' ? 'Productos' 
         : seccion === 'categorias' ? 'Categorías' 
         : seccion === 'proveedores' ? 'Proveedores' 
+        : seccion === 'usuarios' ? 'Gestión de usuarios'
         : 'Estadísticas' }}
       </h2>
     </div>
@@ -35,7 +37,7 @@
           <ng-template #header>
             <tr class="bg-orange-50 text-left text-sm text-gray-700">
               <th class="px-4 py-4">Código</th><th class="px-4 py-4">Fecha</th>
-              <th class="px-4 py-4">Total</th><th class="px-4 py-4">Estado</th>
+              <th class="px-4 py-4">Total</th><th class="px-4 py-4">Estado</th><th class="px-4 py-4">Pago</th>
             </tr
           ></ng-template>
           <ng-template #body let-p>
@@ -51,6 +53,16 @@
                   appendTo="body"
                   styleClass="w-full">
                 </p-select>
+              </td>
+              <td class="px-4 py-4">
+                <span *ngIf="p.pagoPresencial" class="font-medium text-green-700">Registrado</span>
+                <button *ngIf="!p.pagoPresencial" 
+                  pButton type="button" 
+                  label="Registrar" 
+                  icon="pi pi-wallet" 
+                  [text]="true" 
+                  (click)="registrarPago(p)">
+                </button>
               </td>
             </tr>
           </ng-template>
@@ -182,6 +194,45 @@
         </app-crud-table>
       </div>
     </ng-container>
+    <ng-container *ngIf="seccion === 'usuarios'">
+      <div class="overflow-hidden rounded-xl bg-white shadow-sm">
+        <app-crud-table [value]="usuarios" dataKey="id" emptyMessage="No hay usuarios registrados.">
+          <ng-template #header>
+            <tr>
+              <th>Usuario</th>
+              <th>DNI</th>
+              <th>Teléfono</th>
+              <th>Rol</th>
+              <th>Estado</th>
+              <th>Acción</th>
+            </tr>
+          </ng-template>
+          <ng-template #body let-u>
+            <tr>
+              <td>{{u.nombre}} {{u.apellido}}<br>
+                <span class="text-xs text-gray-500">{{u.correo}}</span>
+              </td>
+              <td>{{u.dni}}</td>
+              <td>{{u.telefono}}</td>
+              <td>{{u.rol}}</td>
+              <td>
+                <span [class]="u.activo ? 'font-medium text-green-700' : 'font-medium text-red-600'">{{u.activo ? 'Habilitado' : 'Bloqueado'}}</span>
+              </td>
+              <td>
+                <button 
+                  pButton type="button" 
+                  [label]="u.activo ? 'Bloquear' : 'Habilitar'" 
+                  [icon]="u.activo ? 'pi pi-ban' : 'pi pi-check'" 
+                  [severity]="u.activo ? 'danger' : 'success'" 
+                  [text]="true" 
+                  (click)="cambiarEstadoUsuario(u)">
+                </button>
+              </td>
+            </tr>
+          </ng-template>
+        </app-crud-table>
+      </div>
+    </ng-container>
     <ng-container *ngIf="seccion === 'estadisticas'">
       <div class="grid gap-4 md:grid-cols-3">
         <article class="rounded-xl bg-white p-6 shadow-sm">
@@ -236,6 +287,10 @@
   <div>
     <label class="mb-1 block text-sm">Marca</label>
     <input pInputText [(ngModel)]="producto.marca" class="w-full" />
+  </div>
+  <div>
+    <label class="mb-1 block text-sm">Modelo compatible</label>
+    <input pInputText [(ngModel)]="producto.modeloCompatible" class="w-full" />
   </div>
   <div>
     <label class="mb-1 block text-sm">Imagen (URL)</label>

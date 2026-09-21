@@ -8,4 +8,7 @@ export interface Proforma {
   estado: 'PENDIENTE' | 'PREPARANDO' | 'LISTO PARA RECOGER' | 'ENTREGADO' | 'CANCELADO';
   total: number;
   detalles: DetalleProforma[];
+  pagoPresencial?: boolean;
+  fechaPago?: string;
+  reservaVenceEn?: string;
 }

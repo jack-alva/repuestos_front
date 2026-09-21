@@ -15,8 +15,10 @@ import { CategoriaService } from '../../../core/services/categorias/categoria.se
 import { ProveedorService } from '../../../core/services/proveedores/proveedor.service';
 import { ProformaService } from '../../../core/services/proformas/proforma.service';
 import { Proforma } from '../../../core/class/models/proforma';
+import { AuthService } from '../../../core/services/auth/auth.service';
+import { Usuario } from '../../../core/class/auth/usuario';
 
-type Seccion = 'proformas' | 'productos' | 'categorias' | 'proveedores' | 'estadisticas';
+type Seccion = 'proformas' | 'productos' | 'categorias' | 'proveedores' | 'usuarios' | 'estadisticas';
 
 @Component({ 
   selector: 'app-dashboard', 
@@ -40,13 +42,15 @@ export class DashboardComponent {
   categorias: Categoria[] = []; 
   proveedores: Proveedor[] = []; 
   proformas: Proforma[] = [];
+  usuarios: Usuario[] = [];
   producto!: Producto; 
   categoria: Categoria = { id: 0, nombre: '' }; 
   proveedor: Proveedor = { id: 0, nombre: '', telefono: '', correo: '' };
   readonly estados: Proforma['estado'][] = ['PENDIENTE', 'PREPARANDO', 'LISTO PARA RECOGER', 'ENTREGADO', 'CANCELADO'];
 
   constructor(private productoService: ProductoService, private categoriaService: CategoriaService, 
-    private proveedorService: ProveedorService, private proformaService: ProformaService) { 
+    private proveedorService: ProveedorService, private proformaService: ProformaService,
+    private authService: AuthService) {
       this.producto = this.nuevoProducto(); this.refrescar(); 
   }
 
@@ -55,6 +59,7 @@ export class DashboardComponent {
     this.categorias = this.categoriaService.obtenerTodas(); 
     this.proveedores = this.proveedorService.obtenerTodos(); 
     this.proformas = this.proformaService.obtenerTodas(); 
+    this.usuarios = this.authService.obtenerUsuarios();
   }
 
   abrirProducto(item?: Producto): void { 
@@ -102,6 +107,11 @@ export class DashboardComponent {
     this.refrescar(); 
   }
 
+  registrarPago(proforma: Proforma): void {
+    this.proformaService.registrarPago(proforma.id);
+    this.refrescar();
+  }
+
   eliminarProducto(id: number): void { 
     this.productoService.eliminarProducto(id); 
     this.refrescar(); 
@@ -117,6 +127,11 @@ export class DashboardComponent {
     this.refrescar(); 
   }
 
+  cambiarEstadoUsuario(usuario: Usuario): void {
+    this.authService.cambiarEstadoUsuario(usuario.id, !usuario.activo);
+    this.refrescar();
+  }
+
   get stockBajo(): number { 
     return this.productos.filter(item => item.stock <= 10).length; 
   }
@@ -129,6 +144,7 @@ export class DashboardComponent {
       descripcion: '', 
       categoria: '', 
       marca: '', 
+      modeloCompatible: '',
       precio: 0, 
       stock: 0, 
       imagen: '', 

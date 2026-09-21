@@ -3,6 +3,7 @@ import { Proforma } from '../../class/models/proforma';
 import { CarritoService } from '../carrito/carrito.service';
 import { AuthService } from '../auth/auth.service';
 import { DetalleProforma } from '../../class/models/detalle-proforma';
+import { ProductoService } from '../productos/producto.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,8 @@ export class ProformaService {
 
   constructor(
     private carritoService: CarritoService,
-    private authService: AuthService
+    private authService: AuthService,
+    private productoService: ProductoService
   ) {
     this.cargarProformas();
   }
@@ -57,6 +59,7 @@ export class ProformaService {
     if (!usuario || items.length === 0) {
       return null;
     }
+    if (items.some(item => item.cantidad > (this.productoService.obtenerProductoPorId(item.producto.id)?.stock ?? 0))) return null;
 
     const detalles: DetalleProforma[] =
       items.map(item => ({
@@ -84,11 +87,16 @@ export class ProformaService {
       estado: 'PENDIENTE',
 
       total,
-
-      detalles
+      detalles,
+      pagoPresencial: false,
+      reservaVenceEn: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString()
 
     };
 
+    detalles.forEach(detalle => {
+      const producto = this.productoService.obtenerProductoPorId(detalle.productoId);
+      if (producto) this.productoService.actualizarProducto({ ...producto, stock: producto.stock - detalle.cantidad });
+    });
     this.proformas.push(proforma);
 
     this.guardarProformas();
@@ -149,8 +157,25 @@ export class ProformaService {
 
   }
 
+  obtenerPorCodigo(codigo: string): Proforma | undefined { return this.proformas.find(proforma => proforma.codigo === codigo); }
+
   actualizarEstado(id: number, estado: Proforma['estado']): void {
+    const actual = this.proformas.find(proforma => proforma.id === id);
+    if (!actual || actual.estado === estado) return;
+    if (estado === 'CANCELADO' && actual.estado !== 'CANCELADO') this.liberarReserva(actual);
     this.proformas = this.proformas.map(proforma => proforma.id === id ? { ...proforma, estado } : proforma);
     this.guardarProformas();
+  }
+
+  registrarPago(id: number): void {
+    this.proformas = this.proformas.map(proforma => proforma.id === id ? { ...proforma, pagoPresencial: true, fechaPago: new Date().toISOString() } : proforma);
+    this.guardarProformas();
+  }
+
+  private liberarReserva(proforma: Proforma): void {
+    proforma.detalles.forEach(detalle => {
+      const producto = this.productoService.obtenerProductoPorId(detalle.productoId);
+      if (producto) this.productoService.actualizarProducto({ ...producto, stock: producto.stock + detalle.cantidad });
+    });
   }
 }

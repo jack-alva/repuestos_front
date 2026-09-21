@@ -67,6 +67,7 @@ export class ProductoService {
       producto.nombre.toLowerCase().includes(termino) ||
       producto.codigo.toLowerCase().includes(termino) ||
       producto.marca.toLowerCase().includes(termino) ||
+      (producto.modeloCompatible ?? '').toLowerCase().includes(termino) ||
       producto.categoria.toLowerCase().includes(termino)
     );
   }

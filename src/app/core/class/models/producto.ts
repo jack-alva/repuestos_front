@@ -5,6 +5,7 @@ export interface Producto {
   descripcion: string;
   categoria: string;
   marca: string;
+  modeloCompatible: string;
   precio: number;
   stock: number;
   imagen: string;
