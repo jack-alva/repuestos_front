@@ -24,6 +24,11 @@ body {
 }
 @import "primeicons/primeicons.css";
 
+/* Escala visual compacta para toda la aplicación (Tailwind usa rem). */
+html {
+  font-size: 14px;
+}
+
 /* Superficie clara consistente para los componentes PrimeNG. */
 .p-inputtext, .p-inputnumber-input, .p-password-input, .p-select, .p-select-label, .p-dialog, .p-select-overlay, .p-datatable, .p-paginator { background-color: #fff !important; color: #1f2937 !important; }
 .p-inputtext, .p-inputnumber-input, .p-password-input, .p-select { border: 1px solid #d1d5db !important; border-radius: .5rem !important; min-height: 2.75rem; }
